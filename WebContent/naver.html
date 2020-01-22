@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+//   $("button").click(function(){
+    $.getJSON("nmovie", function(result){
+    	console.log(result);
+    	var html = "";
+    	html += "<table><tr>"
+        $.each(result, function(i, field){
+// 		console.log(i);
+		if ((i % 3) == 0) {
+// 			console.log(i);
+			html += "</tr>";
+			html += "<tr>";
+			
+		}
+			html += "<td width='10%'><h2>" + (i+1) + ". " + field.title + "</h2>";
+			html += "<a href='" + field.link + "' target='_blank'>"
+			html += "<img src='" + field.img + "' width='320'></a></td>";
+// 		if ((i % 5) == 0) {
+// 			html += "</tr>";
+// 		}
+// 			html += "</tr>";
+// 		}  else {
+// 			html += "<img src='" + field.img + "' width='320'></a>";
+// 		}
+        });
+        html += "</table>"
+      $("div").html(html);
+    });
+//   });
+});
+</script>
+</head>
+<body>
+<button>쫙~!!</button><br>
+영화 리스트 쫙~!!<br><br>
+<div></div>
+</html>

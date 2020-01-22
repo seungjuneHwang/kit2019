@@ -1,0 +1,2 @@
+		String clientId = "pc5i_80g7jcq0xHEEWAI";// 애플리케이션 클라이언트 아이디값";
+		String clientSecret = "WsfM0OTsMt";// 애플리케이션 클라이언트 시크릿값";

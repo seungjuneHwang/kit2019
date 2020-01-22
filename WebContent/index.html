@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>설날 특집</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<br>
+
+<div class="container">
+  <h2>설날에 이런거 만들어 보기</h2>
+  <br>
+  <!-- Nav pills -->
+  <ul class="nav nav-pills" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="pill" href="#home">메인</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu1" id="search_btn">검색</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu2" id="movie_btn">영화 순위</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#menu3" id="music_btn">음원 순위</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+      <h2>새해 복 많이 받으세요!</h2>
+      <h3>실시간 검색 순위</h3>
+      <table>
+      <tr>
+      <td><img src="https://i.pinimg.com/originals/07/85/63/0785633ffc9863aa60c15f91c476cba1.gif"></td>
+      <td width="20%"></td>
+      <td><div id="issueview"></div></td>
+      </tr>
+      </table>
+    </div>
+    
+    
+    <div id="menu1" class="container tab-pane fade"><br>
+      <h3>뉴스 검색</h3>
+      <h3>블로그 검색</h3>
+      <h3>...</h3>
+      <div class="form-inline">
+	      <input type="text" class="form-control" placeholder="뉴스 검색" id="search">
+		  <button id="sbtn" class="btn btn-primary">검색</button>
+	  </div>
+	  <div id="sview"></div>
+	  
+	  
+    </div>
+    <div id="menu2" class="container tab-pane fade"><br>
+      <h3>영화 순위</h3>
+      <div id="movieview"></div>
+    </div>
+    <div id="menu3" class="container tab-pane fade"><br>
+      <h3>음원 순위</h3>
+      <div id="musicview"></div>
+      여기에 음악 순위 쫙!~!	
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+
+  $("#search").keypress(function (e) {
+	if (e.which == 13){
+		$("#sbtn").click();  // 실행할 이벤트
+	}
+  });
+  
+  $("#sbtn").click(function(){
+	  console.log($('#search').val());
+    $.post("nsearch",
+    {
+    	search : $('#search').val()
+    },	
+    function(result){
+    	console.log(result["items"]);
+    	var html = "";
+      $.each(result["items"], function(i, field){
+    	  console.log(i);
+    	  console.log(field["title"]);  //field.title
+//         $("div").append(field['name'] + " ");
+		html += "<a href='" + field.link + "'>" + field.title + "</a><br>";
+      });
+      $("#sview").html(html);
+    });
+  });
+  
+//   $("#home").click(function(){
+	  console.log("메인");	
+	  $.getJSON("dissue", function(result){
+	  	console.log(result);
+	  	var html = "";
+	      $.each(result, function(i, field){
+				html += "<h5>" + field.rank + "위 ";
+				html += field.issue +  "</h5>";
+	      });
+	    $("#issueview").html(html);
+//   	});
+  });
+  
+  $("#movie_btn").click(function(){
+	  console.log("asdfsad");	
+	  $.getJSON("nmovie", function(result){
+	  	console.log(result);
+	  	var html = "";
+	  	html += "<table><tr>"
+	      $.each(result, function(i, field){
+			if ((i % 3) == 0) {
+				html += "</tr>";
+				html += "<tr>";
+			}
+				html += "<td width='10%'><h2>" + (i+1) + ". " + field.title + "</h2>";
+				html += "<a href='" + field.link + "' target='_blank'>"
+				html += "<img src='" + field.img + "' width='320'></a></td>";
+	      });
+	      html += "</table>"
+	    $("#movieview").html(html);
+  	});
+  });
+});
+</script>
+</body>
+</html>

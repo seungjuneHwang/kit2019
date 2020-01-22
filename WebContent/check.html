@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+.selected {
+	text-decoration:line-through;
+	font-weight:700;
+	color:red
+}
+.multiselect {
+    width:20em;
+    height:15em;
+    border:solid 1px #c0c0c0;
+    overflow:auto;
+}
+ 
+.multiselect label {
+    display:block;
+}
+ 
+.multiselect-on {
+    color:#ffffff;
+    background-color:#000099;
+}
+</style>
+<!-- 스타일은 CSS에 추가해주는 것을 권장합니다. --> 
+<script> 
+$(document).ready(function() { 
+	$("input:checkbox").on('click', function() { 
+		if ( $(this).prop('checked') ) {
+			console.log($("#test-1").val());
+			console.log("체크");
+// 			$(this).parent().addClass("selected"); 
+		} else {
+			console.log("체크 해제");
+// 			$(this).parent().removeClass("selected");
+		} 
+		}); 
+	$('.multiselect').click(function () {
+	    var src = $(this).val() +"blah";
+	    $('#articleFullText').val($('#articleFullText').val() + src);
+	});
+	jQuery.fn.multiselect = function() {
+	    $(this).each(function() {
+	        var checkboxes = $(this).find("input:checkbox");
+	        checkboxes.each(function() {
+	            var checkbox = $(this);
+	            // Highlight pre-selected checkboxes
+	            if (checkbox.prop("checked"))
+	                checkbox.parent().addClass("multiselect-on");
+	 
+	            // Highlight checkboxes that the user selects
+	            checkbox.click(function() {
+	                if (checkbox.prop("checked"))
+	                    checkbox.parent().addClass("multiselect-on");
+	                else
+	                    checkbox.parent().removeClass("multiselect-on");
+	            });
+	        });
+	    });
+	};	
+
+}); 
+
+</script>
+
+<body>
+
+<div class="multiselect">
+    <label><input type="checkbox" name="option[]" value="1" />Green</label>
+    <label><input type="checkbox" name="option[]" value="2" />Red</label>
+    <label><input type="checkbox" name="option[]" value="3" />Blue</label>
+    <label><input type="checkbox" name="option[]" value="4" />Orange</label>
+    <label><input type="checkbox" name="option[]" value="5" />Purple</label>
+    <label><input type="checkbox" name="option[]" value="6" />Black</label>
+    <label><input type="checkbox" name="option[]" value="7" />White</label>
+</div>
+
+<p> 
+<input type="checkbox" id="test-1" value="1번">1번<br>
+<input type="checkbox" id="test-2" value="2번">2번<br>
+<input type="checkbox" id="test-3" value="3번">3번<br>
+<input type="checkbox" id="test-4" value="4번">4번<br>
+<label for="test-1">체크박스를 체크 또는 라벨(이 문구)을 클릭시 글자가 변합니다.</label> 
+</p>
+
+
+
+</body>
+</html>
